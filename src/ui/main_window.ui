@@ -209,7 +209,7 @@ background-color: #dc5049;
            <string/>
           </property>
          </widget>
-         <widget class="QCommandLinkButton" name="listTicketsButton">
+         <widget class="QCommandLinkButton" name="availableTicketsButton">
           <property name="geometry">
            <rect>
             <x>0</x>
