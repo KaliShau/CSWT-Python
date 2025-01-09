@@ -323,6 +323,36 @@ background-color: #dc5049;
        <string notr="true"/>
       </property>
      </widget>
+     <widget class="QCommandLinkButton" name="checkConnectButton">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>110</y>
+        <width>241</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QCommandLinkButton {
+border-radius: 5px;
+}
+
+QCommandLinkButton:hover {
+background-color: #dc5049;
+}</string>
+      </property>
+      <property name="text">
+       <string>Проверить подключение</string>
+      </property>
+      <property name="description">
+       <string/>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>

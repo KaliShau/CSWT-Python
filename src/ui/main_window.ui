@@ -167,7 +167,7 @@ background-color: #dc5049;
          <property name="title">
           <string>Работа</string>
          </property>
-         <widget class="QCommandLinkButton" name="myTicketsButton">
+         <widget class="QCommandLinkButton" name="myCreateTicketsButton">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -224,7 +224,7 @@ background-color: #dc5049;
            </font>
           </property>
           <property name="text">
-           <string>Список заявок</string>
+           <string>Доступные заявок</string>
           </property>
           <property name="description">
            <string/>
@@ -517,7 +517,7 @@ background-color: #dc5049;
               <string notr="true">QWidget {
 background-color: #202122;}</string>
              </property>
-             <widget class="QLabel" name="appName_2">
+             <widget class="QLabel" name="startLabel">
               <property name="geometry">
                <rect>
                 <x>20</x>

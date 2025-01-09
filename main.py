@@ -3,19 +3,20 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
 from src.screens.main_window import Ui_MainWindow
-from src.screens.sign_in import Ui_SignIn
-from src.screens.sign_up import Ui_SignUp
-from src.screens.create_ticket import Ui_CreateTicket
-from src.screens.my_create_tickets import Ui_MyCreateTickets
-from src.screens.my_assigned_tickets import Ui_MyAssignedTickets
-from src.screens.available_tickets import Ui_AvailableTickets
-from src.screens.db_config import Ui_DbConfig
 
 from src.functions.visible import  visible
 from src.functions.widgets import widgets
 from src.functions.config import config
 
-from src.functions.db_config_functions import db_config_functions
+from src.db.database_manager import database_manager
+
+from src.functions.screens.db_config_functions import db_config_functions
+from src.functions.screens.sign_in_functions import sign_in_functions
+from src.functions.screens.sign_up_functions import sign_up_functions
+from src.functions.screens.available_tickets_functions import available_tickets_functions
+from src.functions.screens.create_ticket_functions import create_ticket_functions
+from src.functions.screens.my_create_tickets_functions import my_create_tickets_functions
+from src.functions.screens.my_assigned_tickets_functions import my_assigned_tickets_functions
 
 class AppTracker(QMainWindow):
     def __init__(self):
@@ -24,26 +25,32 @@ class AppTracker(QMainWindow):
         self.main_window.setupUi(self)
 
         # config
-        self.config = config()
-        self.config.create_config()
-
-        # init widgets
-        self.sign_in = Ui_SignIn()
-        self.sign_up = Ui_SignUp()
-        self.create_ticket = Ui_CreateTicket()
-        self.my_create_tickets = Ui_MyCreateTickets()
-        self.my_assigned_tickets = Ui_MyAssignedTickets()
-        self.available_tickets = Ui_AvailableTickets()
-        self.db_config = Ui_DbConfig(self.config.load_config())
+        config().create_config()
+        self.user = None
 
         # init functions
-        self.widgets = widgets(self.main_window, self.sign_in, self.sign_up, self.create_ticket, self.my_create_tickets, self.my_assigned_tickets, self.available_tickets, self.db_config)
+        self.widgets = widgets(self.main_window)
         self.visible = visible(self.main_window)
+        self.database_manager = database_manager()
 
-        self.db_config_functions = db_config_functions(self.config, self.db_config)
-        
+        self.init_functions_widgets()
 
+    def init_functions_widgets(self):
+        self.db_config_functions = db_config_functions(self.main_window, self.widgets, self.database_manager)
+        self.sign_in_functions = sign_in_functions(self.main_window, self.widgets)
+        self.sign_up_functions = sign_up_functions(self.main_window, self.widgets, self.database_manager, self.visible, self.setUser)
+        self.available_tickets_functions = available_tickets_functions(self.main_window, self.widgets)
+        self.create_ticket_functions = create_ticket_functions(self.main_window, self.widgets, self.user)
+        self.my_create_tickets_functions = my_create_tickets_functions(self.main_window, self.widgets)
+        self.my_assigned_tickets_functions = my_assigned_tickets_functions(self.main_window, self.widgets)
 
+    def setUser(self, user):
+        self.user = user
+        self.init_functions_widgets()
+
+    def closeEvent(self, event):
+        self.database_manager.disconnect()
+        event.accept()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
