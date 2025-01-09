@@ -2,15 +2,9 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 
 
 class Ui_DbConfig(QtWidgets.QWidget):
-    def __init__(self, config):
+    def __init__(self):
         super(Ui_DbConfig, self).__init__()
         self.setupUi()
-
-        self.passwordEdit.setPlainText(config['database']['password'])
-        self.userEdit.setPlainText(config['database']['user'])
-        self.hostEdit.setPlainText(config['database']['host'])
-        self.portEdit.setPlainText(config['database']['port'])
-        self.dbEdit.setPlainText(config['database']['dbname'])
 
     def setupUi(self):
         self.setObjectName("Form")
@@ -125,9 +119,21 @@ class Ui_DbConfig(QtWidgets.QWidget):
         self.dbEdit.setGeometry(QtCore.QRect(730, 270, 301, 31))
         self.dbEdit.setStyleSheet("")
         self.dbEdit.setObjectName("dbEdit")
+        self.checkConnectButton = QtWidgets.QCommandLinkButton(parent=self.layout)
+        self.checkConnectButton.setGeometry(QtCore.QRect(30, 110, 241, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.checkConnectButton.setFont(font)
+        self.checkConnectButton.setStyleSheet("QCommandLinkButton {\n"
+"border-radius: 5px;\n"
+"}\n"
+"\n"
+"QCommandLinkButton:hover {\n"
+"background-color: #dc5049;\n"
+"}")
+        self.checkConnectButton.setDescription("")
+        self.checkConnectButton.setObjectName("checkConnectButton")
         self.horizontalLayout.addWidget(self.layout)
-
-        self.errorLabel.setVisible(False)
 
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
@@ -150,6 +156,7 @@ class Ui_DbConfig(QtWidgets.QWidget):
         self.passwordLabel.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:10pt;\">Пароль</span></p></body></html>"))
         self.dbLabel.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-weight:400;\">Control System Work Tracker</span></p></body></html>"))
         self.dbLabel.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:10pt;\">База данных</span></p></body></html>"))
+        self.checkConnectButton.setText(_translate("Form", "Проверить подключение"))
 
 
 if __name__ == "__main__":
