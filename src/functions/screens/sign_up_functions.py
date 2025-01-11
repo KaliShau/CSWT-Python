@@ -1,5 +1,6 @@
 from src.screens.sign_up import Ui_SignUp
-from src.screens.dialog import Ui_Dialog
+
+from src.functions.dialog import dialog
 
 class sign_up_functions():
     def __init__(self, main_window, widgets, database_manager, visible, setUser):
@@ -44,7 +45,7 @@ class sign_up_functions():
 
             return False
 
-        checkUser = self.database_manager.find_by_username((username,))
+        checkUser = self.database_manager.find_user_by_username((username,))
 
         if checkUser:
             self.sign_up.errorLabel.setVisible(True)
@@ -53,18 +54,22 @@ class sign_up_functions():
         self.database_manager.sign_up(username, firstname, lastname, number, password)
 
         user = self.database_manager.sign_in(username, password)
-        
+
+        if not user:
+            self.sign_up.errorLabel.setVisible(True)
+            self.sign_up.errorLabel.setText('Недопустимый логин или пароль.')
+
+            return False
+
+        role = self.database_manager.find_role_by_id(user[9])
+
         self.setUser(user)
 
-        self.visible.check_role(user)
-        self.widgets.change(self.main_window.startWidgetLayout)
-        self.main_window.startLabel.setVisible(False)
+        if self.visible.check_role(role):
+            self.widgets.change(self.main_window.startWidgetLayout)
+            self.main_window.startLabel.setVisible(False)
 
-        dialog = Ui_Dialog()
-        dialog.textLabel.setText('Вход успешно выполнен!')
-        dialog.show()
-        dialog.exec()
-
+            dialog.show(f'Регистрация успешно выполнена! Добро пожаловать {user[5]} {user[6]}')
 
 
         

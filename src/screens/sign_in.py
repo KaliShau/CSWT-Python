@@ -157,8 +157,6 @@ class Ui_SignIn(QtWidgets.QWidget):
         self.errorLabel.setObjectName("errorLabel")
         self.horizontalLayout.addWidget(self.layout)
         
-        self.errorLabel.setVisible(False)
-
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
 
