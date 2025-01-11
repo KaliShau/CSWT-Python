@@ -1,21 +1,31 @@
-from src.screens.main_window import Ui_MainWindow
+from src.functions.dialog import dialog
 
 class visible():
-    def __init__(self, main_window: Ui_MainWindow):
+    def __init__(self, main_window):
         self.main_window = main_window
         self.auth()
 
-    def check_role(self, user):
-        role = user[9]
+    def check_role(self, role):
 
-        if role == 1:
+        role_name = role[3]
+
+        if role_name == 'Admin':
             self.admin()
 
-        if role == 2:
+            return True
+
+        if role_name == 'ASU_staff':
             self.ASU_staff()
 
-        if role == 3:
+            return True
+
+        if role_name == 'Client':
             self.client()
+
+            return True
+            
+        dialog.show('Ваша роль не найдена. Обратиться к администратору.')
+        return False
 
     def auth(self):
         self.main_window.workBox.setVisible(False)
@@ -23,7 +33,7 @@ class visible():
         self.main_window.adminBox.setVisible(False)
         self.main_window.authBox.setVisible(True)
 
-        # profile menu
+        # menu
         self.main_window.action_2.setVisible(False)
         self.main_window.action_3.setVisible(False)
         self.main_window.action_5.setVisible(False)
@@ -39,7 +49,7 @@ class visible():
         self.main_window.adminBox.setVisible(True)
         self.main_window.authBox.setVisible(False)
 
-        # profile menu
+        # menu
         self.main_window.action_2.setVisible(True)
         self.main_window.action_3.setVisible(True)
         self.main_window.action_5.setVisible(True)
@@ -56,7 +66,7 @@ class visible():
         self.main_window.adminBox.setVisible(False)
         self.main_window.authBox.setVisible(False)
 
-        # profile menu
+        # menu
         self.main_window.action_2.setVisible(True)
         self.main_window.action_3.setVisible(True)
         self.main_window.action_5.setVisible(True)
@@ -72,7 +82,7 @@ class visible():
         self.main_window.adminBox.setVisible(False)
         self.main_window.authBox.setVisible(False)
 
-        # profile menu
+        # menu
         self.main_window.action_2.setVisible(True)
         self.main_window.action_3.setVisible(True)
         self.main_window.action_5.setVisible(True)
