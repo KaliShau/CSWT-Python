@@ -1,10 +1,11 @@
 from src.screens.my_create_tickets import Ui_MyCreateTickets
 
-from PyQt6.QtGui import QStandardItemModel, QStandardItem
 from PyQt6.QtWidgets import QMenu
 from PyQt6.QtCore import QPoint, Qt
 
 from src.functions.load_table import table
+
+from src.functions.screens.my_ticket_edit_functions import my_ticket_edit_functions
 
 headers = ['ID', 'Дата добавления', 'Загаловок', 'Описание', 'Решение', 'Дата закрытия', 'Приоритет', 'Статус', 'Имя исполнителя', 'Фамилия исполнителя']
 
@@ -22,7 +23,7 @@ class my_create_tickets_functions():
         self.main_window.myCreateTicketsButton.clicked.connect(self.openMyCreateTickets)
         self.my_create_tickets.searchButton.clicked.connect(self.searchData)
 
-        # config --
+        # config 
         self.my_create_tickets.tableView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.my_create_tickets.tableView.customContextMenuRequested.connect(self.showContextMenu)
 
@@ -55,10 +56,11 @@ class my_create_tickets_functions():
         else:
             self.loadTickets()
 
-    def showContextMenu(self, position: QPoint): # --
+    def showContextMenu(self, position: QPoint): 
         menu = QMenu(self.my_create_tickets.tableView)
 
         delete_action = menu.addAction('Удалить')
+        ticket_edit_action = menu.addAction('Редактировать и комментарии')
 
         index = self.my_create_tickets.tableView.indexAt(position)
 
@@ -76,6 +78,11 @@ class my_create_tickets_functions():
 
                     self.database_manager.delete_ticket_by_client(status[0], self.user[0], ticket_id)
                     self.loadTickets()
+                
+                if action == ticket_edit_action:
+                    self.my_ticket_edit_functions = my_ticket_edit_functions(self.main_window, self.widgets, self.database_manager, self.user, ticket_id)
+
+                    self.my_ticket_edit_functions.openMyTicketEdit()
 
 
 

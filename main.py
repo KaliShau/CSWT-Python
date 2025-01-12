@@ -26,7 +26,7 @@ class AppTracker(QMainWindow):
 
         # config
         config().create_config()
-        self.user = None
+        self.user = None 
 
         # init functions
         self.widgets = widgets(self.main_window)
@@ -45,9 +45,9 @@ class AppTracker(QMainWindow):
             return False
 
         self.my_create_tickets_functions = my_create_tickets_functions(self.main_window, self.widgets, self.database_manager, self.user)
-        self.available_tickets_functions = available_tickets_functions(self.main_window, self.widgets)
+        self.available_tickets_functions = available_tickets_functions(self.main_window, self.widgets, self.database_manager, self.user)
         self.create_ticket_functions = create_ticket_functions(self.main_window, self.widgets, self.database_manager, self.user)
-        self.my_assigned_tickets_functions = my_assigned_tickets_functions(self.main_window, self.widgets)
+        self.my_assigned_tickets_functions = my_assigned_tickets_functions(self.main_window, self.widgets, self.database_manager, self.user)
 
         self.main_window.action_5.triggered.connect(self.sign_out)
 

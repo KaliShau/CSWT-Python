@@ -23,7 +23,6 @@ class sign_up_functions():
          self.widgets.change(self.sign_up)
 
     def signUp(self):
-        self.database_manager.connect()
 
         username = self.sign_up.loginEdit.toPlainText()
         firstname = self.sign_up.firstNameEdit.toPlainText()
@@ -45,11 +44,14 @@ class sign_up_functions():
 
             return False
 
-        checkUser = self.database_manager.find_user_by_username((username,))
+        self.database_manager.connect()
+        checkUser = self.database_manager.get_user_by_username((username,))
 
         if checkUser:
             self.sign_up.errorLabel.setVisible(True)
             self.sign_up.errorLabel.setText('Недопустимый логин или пароль.')
+
+            return False
 
         self.database_manager.sign_up(username, firstname, lastname, number, password)
 
@@ -61,7 +63,7 @@ class sign_up_functions():
 
             return False
 
-        role = self.database_manager.find_role_by_id(user[9])
+        role = self.database_manager.get_role_by_id(user[9])
 
         self.setUser(user)
 

@@ -23,7 +23,6 @@ class sign_in_functions():
          self.widgets.change(self.sign_in)
 
     def signIn(self):
-        self.database_manager.connect()
 
         username = self.sign_in.loginEdit.toPlainText()
         password = self.sign_in.passwordEdit.toPlainText()
@@ -34,6 +33,7 @@ class sign_in_functions():
 
             return False
         
+        self.database_manager.connect()
         user = self.database_manager.sign_in(username, password)
 
         if not user:
