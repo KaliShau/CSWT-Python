@@ -275,3 +275,120 @@ class database_manager():
                 dialog.show(f'Ошибка при выполнении запроса: {err}')
 
                 return False   
+    
+    def get_ticket_by_id(self, ticket_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.get_ticket_by_id, (ticket_id,))
+
+                result = cursor.fetchone()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+    
+    def create_comment(self, text, ticket_id, user_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.create_comment, (text, ticket_id, user_id))
+                self.conn.commit()
+
+                dialog.show('Комментарий успешно добавлен.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+    
+    def get_comments_by_ticket(self, ticket_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.get_comments_by_ticket, (ticket_id,))
+
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+
+    def update_ticket_client(self, title, desc, ticket_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.update_ticket_client, (title, desc, ticket_id))
+                self.conn.commit()
+
+                dialog.show('Успешно обновлено.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+    
+    def get_available_tickets(self, status_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.get_available_tickets, (status_id,))
+                
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False     
+
+    def get_available_tickets_by_title(self, status_id, title):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                search_key = f'%{title}%'
+
+                cursor.execute(sql.get_available_tickets_by_title, (status_id, search_key))
+                
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False      
+    
+    def update_ticket_by_assigned(self, assigned_to, ticket_id, status_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.update_ticket_by_assigned, (assigned_to, status_id, ticket_id))
+                self.conn.commit()
+
+                dialog.show('Успешно добавлено.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   

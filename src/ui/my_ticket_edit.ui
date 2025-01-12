@@ -55,7 +55,7 @@ border: 1px solid #dc5049;
         <x>0</x>
         <y>260</y>
         <width>1090</width>
-        <height>491</height>
+        <height>251</height>
        </rect>
       </property>
       <property name="palette">
@@ -285,7 +285,7 @@ border: 1px solid #dc5049;
         <x>9</x>
         <y>9</y>
         <width>1094</width>
-        <height>200</height>
+        <height>241</height>
        </rect>
       </property>
       <property name="minimumSize">
@@ -294,10 +294,10 @@ border: 1px solid #dc5049;
         <height>200</height>
        </size>
       </property>
-      <widget class="QLabel" name="searchLabel">
+      <widget class="QLabel" name="titleLabelForTicket">
        <property name="geometry">
         <rect>
-         <x>410</x>
+         <x>190</x>
          <y>30</y>
          <width>161</width>
          <height>21</height>
@@ -315,30 +315,94 @@ border: 1px solid #dc5049;
         <string notr="true">color: #a5a7aa;</string>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Поиск по загаловку&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Загаловок&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QTextEdit" name="searchEdit">
+      <widget class="QTextEdit" name="titleEditForTicket">
        <property name="geometry">
         <rect>
-         <x>410</x>
+         <x>190</x>
          <y>60</y>
-         <width>561</width>
-         <height>31</height>
+         <width>251</width>
+         <height>71</height>
         </rect>
        </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
       </widget>
-      <widget class="QCommandLinkButton" name="searchButton">
+      <widget class="QLabel" name="title">
        <property name="geometry">
         <rect>
-         <x>410</x>
-         <y>110</y>
+         <x>30</x>
+         <y>20</y>
+         <width>131</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Control System Work Tracker&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Заявка:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="descLabel">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>30</y>
+         <width>161</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Control System Work Tracker&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #a5a7aa;</string>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Описание&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="descEdit">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>60</y>
+         <width>531</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+      </widget>
+      <widget class="QCommandLinkButton" name="updateTicketButton">
+       <property name="geometry">
+        <rect>
+         <x>890</x>
+         <y>170</y>
          <width>121</width>
          <height>41</height>
         </rect>
@@ -358,19 +422,19 @@ background-color: #dc5049;
 }</string>
        </property>
        <property name="text">
-        <string>Найти</string>
+        <string>Обновить</string>
        </property>
        <property name="description">
         <string/>
        </property>
       </widget>
-      <widget class="QLabel" name="title">
+      <widget class="QLabel" name="title_2">
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>20</y>
-         <width>271</width>
-         <height>91</height>
+         <y>200</y>
+         <width>221</width>
+         <height>41</height>
         </rect>
        </property>
        <property name="font">
@@ -382,12 +446,106 @@ background-color: #dc5049;
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Control System Work Tracker&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Доступные заявки&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Комментарии:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
        </property>
       </widget>
+     </widget>
+     <widget class="QLabel" name="titleLabelForComments">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>580</y>
+        <width>161</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Control System Work Tracker&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: #a5a7aa;</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Загаловок&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="titleEditForComments">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>610</y>
+        <width>821</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="title_3">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>520</y>
+        <width>381</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Control System Work Tracker&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Добавить комментарий:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCommandLinkButton" name="createCommentButton">
+      <property name="geometry">
+       <rect>
+        <x>900</x>
+        <y>700</y>
+        <width>121</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QCommandLinkButton {
+border-radius: 5px;
+}
+
+QCommandLinkButton:hover {
+background-color: #dc5049;
+}</string>
+      </property>
+      <property name="text">
+       <string>Добавить</string>
+      </property>
+      <property name="description">
+       <string/>
+      </property>
      </widget>
     </widget>
    </item>

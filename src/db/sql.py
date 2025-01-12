@@ -30,7 +30,8 @@ class sql():
         JOIN Statuses S ON T.status_id = S.ID
         JOIN Priorities P ON T.priority_id = P.ID
         LEFT JOIN Users U ON T.assigned_to = U.ID
-        WHERE T.client_id = %s;
+        WHERE T.client_id = %s 
+        ORDER BY T.created_at DESC;
     '''
 
     get_my_create_tickets_by_title = '''
@@ -41,7 +42,28 @@ class sql():
         JOIN Statuses S ON T.status_id = S.ID
         JOIN Priorities P ON T.priority_id = P.ID
         LEFT JOIN Users U ON T.assigned_to = U.ID
-        WHERE T.client_id = %s AND T.title LIKE %s;
+        WHERE T.client_id = %s AND T.title LIKE %s 
+        ORDER BY T.created_at DESC;
+    '''
+
+    get_available_tickets = '''
+        SELECT T.ID, T.created_at, T.title, T.description, P.priority_name, S.status_name, U.first_name, U.last_name
+        FROM Tickets T
+        JOIN Statuses S ON T.status_id = S.ID
+        JOIN Priorities P ON T.priority_id = P.ID
+        JOIN Users U ON T.client_id = U.ID
+        WHERE T.status_id = %s
+        ORDER BY T.created_at DESC;
+    '''
+
+    get_available_tickets_by_title = '''
+        SELECT T.ID, T.created_at, T.title, T.description, P.priority_name, S.status_name, U.first_name, U.last_name
+        FROM Tickets T
+        JOIN Statuses S ON T.status_id = S.ID
+        JOIN Priorities P ON T.priority_id = P.ID
+        JOIN Users U ON T.client_id = U.ID
+        WHERE T.status_id = %s AND T.title LIKE %s 
+        ORDER BY T.created_at DESC;
     '''
 
     get_priorities = '''
@@ -70,4 +92,34 @@ class sql():
         UPDATE Tickets
         SET status_id = %s
         WHERE client_id = %s AND ID = %s;
+    '''
+
+    get_comments_by_ticket = '''
+        SELECT C.ID, C.created_at, C.comment_text, U.first_name, U.last_name
+        FROM Comments C
+        JOIN Users U ON C.user_id = U.ID
+        WHERE ticket_id = %s;
+    '''
+
+    get_ticket_by_id = '''
+        SELECT *
+        FROM Tickets
+        WHERE ID = %s;
+    '''
+
+    create_comment = '''
+        INSERT INTO Comments (comment_text, ticket_id, user_id)
+        VALUE (%s, %s, %s) 
+    '''
+
+    update_ticket_client = '''
+        UPDATE Tickets
+        SET title = %s, description = %s
+        WHERE ID = %s;
+    '''
+
+    update_ticket_by_assigned = '''
+        UPDATE Tickets
+        SET assigned_to = %s, status_id = %s
+        WHERE ID = %s;
     '''
