@@ -83,7 +83,7 @@ class available_tickets_functions():
                 if action == comments_action:
                     self.my_ticket_edit_functions = my_ticket_edit_functions(self.main_window, self.widgets, self.database_manager, self.user, ticket_id)
                     self.my_ticket_edit_functions.my_ticket_edit.updateTicketButton.setVisible(False)
-                    self.my_ticket_edit_functions.my_ticket_edit.titleEditForTicket.setDisabled(True)
-                    self.my_ticket_edit_functions.my_ticket_edit.descEdit.setDisabled(True)
+                    self.my_ticket_edit_functions.my_ticket_edit.titleEditForTicket.setReadOnly(True)
+                    self.my_ticket_edit_functions.my_ticket_edit.descEdit.setReadOnly(True)
 
                     self.my_ticket_edit_functions.openMyTicketEdit()

@@ -53,7 +53,8 @@ class sign_up_functions():
 
             return False
 
-        self.database_manager.sign_up(username, firstname, lastname, number, password)
+        role = self.database_manager.get_role_by_name('Client')
+        self.database_manager.sign_up(username, firstname, lastname, number, password, role[0])
 
         user = self.database_manager.sign_in(username, password)
 
