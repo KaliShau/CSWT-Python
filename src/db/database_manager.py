@@ -109,12 +109,12 @@ class database_manager():
 
                 return False
         
-    def sign_up(self, username, firstname, lastname, number, password):
+    def sign_up(self, username, firstname, lastname, number, password, role_id):
         if self.conn:
             cursor = self.conn.cursor()
 
             try:
-                user_data = (username, firstname, lastname, number, password)
+                user_data = (username, firstname, lastname, number, password, role_id)
 
                 cursor.execute(sql.sign_up, user_data)
                 self.conn.commit()
@@ -150,6 +150,22 @@ class database_manager():
 
             try:
                 cursor.execute(sql.get_role_by_id, (id,))
+                
+                result = cursor.fetchone()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False      
+
+    def get_role_by_name(self, name):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.get_role_by_name, (name,))
                 
                 result = cursor.fetchone()
 
@@ -224,6 +240,22 @@ class database_manager():
                 logging.error('Ошибка при выполнении запроса.')
                 dialog.show(f'Ошибка при выполнении запроса: {err}')
 
+                return False 
+
+    def get_priority_by_id(self, id):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.get_priority_by_id, (id,))
+
+                result = cursor.fetchone()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
                 return False   
     
     def get_status_by_name(self, name):
@@ -241,6 +273,38 @@ class database_manager():
                 dialog.show(f'Ошибка при выполнении запроса: {err}')
 
                 return False   
+
+    def get_statuses(self):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.get_statuses)
+
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+
+    def get_status_by_id(self, id):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.get_status_by_id, (id,))
+
+                result = cursor.fetchone()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
     
     def create_ticket(self, title, desc, client_id, priority_id, status_id):
         if self.conn:
@@ -385,6 +449,72 @@ class database_manager():
                 self.conn.commit()
 
                 dialog.show('Успешно добавлено.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+    
+    def get_my_assigned_tickets(self, user_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.get_my_assigned_tickets, (user_id,))
+                
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+
+    def get_my_assigned_tickets_by_title(self, user_id, title):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                search_key = f'%{title}%'
+
+                cursor.execute(sql.get_my_assigned_tickets_by_title, (user_id, search_key))
+                
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+
+    def update_ticket(self, title, desc, solution, priority_id, status_id, ticket_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.update_ticket, (title, desc, solution, priority_id, status_id, ticket_id))
+                self.conn.commit()
+
+                dialog.show('Успешно обновлено.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+
+    def closed_at_ticket(self, ticket_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.closed_at_ticket, (ticket_id,))
+                self.conn.commit()
 
                 return True
             except mysql.connector.Error as err:
