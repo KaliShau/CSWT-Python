@@ -16,6 +16,32 @@ class sql():
         WHERE username = %s;
     '''
 
+    get_users = '''
+        SELECT U.ID, U.created_at, U.updated_at, U.username, U.password, U.first_name, U.last_name, U.email, U.phone_number, R.role_name,
+        GROUP_CONCAT(d.department_name SEPARATOR ', ') AS departments
+        FROM Users U
+        JOIN Roles R ON U.role_id = R.ID
+        LEFT JOIN User_Departments ud ON U.ID = ud.user_id
+        LEFT JOIN Departments d ON ud.department_id = d.id
+        GROUP BY U.ID, U.created_at, U.updated_at, U.username, U.password, U.first_name, U.last_name, U.email, U.phone_number, R.role_name;
+    '''
+
+    get_users_search = '''
+        SELECT U.ID, U.created_at, U.updated_at, U.username, U.password, U.first_name, U.last_name, U.email, U.phone_number, R.role_name,
+        GROUP_CONCAT(d.department_name SEPARATOR ', ') AS departments
+        FROM Users U
+        JOIN Roles R ON U.role_id = R.ID
+        LEFT JOIN User_Departments ud ON U.ID = ud.user_id
+        LEFT JOIN Departments d ON ud.department_id = d.id
+        WHERE U.username LIKE %s OR U.first_name LIKE %s OR U.last_name LIKE %s
+        GROUP BY U.ID, U.created_at, U.updated_at, U.username, U.password, U.first_name, U.last_name, U.email, U.phone_number, R.role_name;
+    '''
+
+    get_roles = '''
+        SELECT * 
+        FROM Roles;
+    '''
+
     get_role_by_id = '''
         SELECT * 
         FROM Roles 
@@ -173,6 +199,21 @@ class sql():
         WHERE ID = %s;
     '''
 
+    closed_at_ticket = '''
+        UPDATE Tickets
+        SET closed_at = NOW()
+        WHERE ID = %s;
+    '''
+
+    get_departments_by_user_id = '''
+        SELECT d.department_name
+        FROM User_Departments ud
+        INNER JOIN Departments d ON ud.department_id = d.id
+        WHERE ud.user_id = %s;
+    '''
+
+    # base data
+
     create_base_roles = '''
         INSERT INTO Roles (role_name, description)
         VALUE 
@@ -181,7 +222,7 @@ class sql():
             ('ASU_staff', 'Сотрудник АСУ, работающий с заявками и помогающий клиентам.');
     '''
 
-    create_base_statuses = '''
+    create_base_priorities = '''
         INSERT INTO Priorities (priority_name, description)
         VALUE 
             ('Низкий', 'Заявка может быть отложена на длительное время, не срочная.'),
@@ -191,8 +232,12 @@ class sql():
             ('Критический', ' Заявка требует немедленного решения.');
     '''
 
-    closed_at_ticket = '''
-        UPDATE Tickets
-        SET closed_at = NOW()
-        WHERE ID = %s;
+    create_base_statuses = '''
+        INSERT INTO Statuses (status_name, description)
+        VALUE 
+            ('Новая', 'Заявка создана и ожидает обработки.'),
+            ('Удалено клиентом', ' Заявка была удалена клиентом.'),
+            ('Назначена', 'Заявка назначена на специалиста.'),
+            ('Высокий', ' Заявка требует срочного решения.'),
+            ('Решена', ' Заявка решена.');
     '''

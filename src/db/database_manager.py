@@ -160,6 +160,21 @@ class database_manager():
 
                 return False      
 
+    def get_roles(self):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.get_roles)
+                
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False      
     def get_role_by_name(self, name):
         if self.conn:
             cursor = self.conn.cursor()
@@ -266,6 +281,38 @@ class database_manager():
                 cursor.execute(sql.get_status_by_name, (name,))
 
                 result = cursor.fetchone()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+
+    def get_users(self):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.get_users)
+
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+
+    def get_users_search(self, search_term):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.get_users_search, ('%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%'))
+
+                result = cursor.fetchall()
 
                 return result
             except mysql.connector.Error as err:
@@ -522,3 +569,20 @@ class database_manager():
                 dialog.show(f'Ошибка при выполнении запроса: {err}')
 
                 return False   
+                
+    def get_departments_by_user_id(self, user_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.get_departments_by_user_id, (user_id,))
+                
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+    

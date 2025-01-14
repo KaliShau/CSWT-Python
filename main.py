@@ -17,6 +17,7 @@ from src.functions.screens.available_tickets_functions import available_tickets_
 from src.functions.screens.create_ticket_functions import create_ticket_functions
 from src.functions.screens.my_create_tickets_functions import my_create_tickets_functions
 from src.functions.screens.my_assigned_tickets_functions import my_assigned_tickets_functions
+from src.functions.screens.users import users_functions
 
 class AppTracker(QMainWindow):
     def __init__(self):
@@ -48,7 +49,9 @@ class AppTracker(QMainWindow):
         self.available_tickets_functions = available_tickets_functions(self.main_window, self.widgets, self.database_manager, self.user)
         self.create_ticket_functions = create_ticket_functions(self.main_window, self.widgets, self.database_manager, self.user)
         self.my_assigned_tickets_functions = my_assigned_tickets_functions(self.main_window, self.widgets, self.database_manager, self.user)
-
+        
+        self.users_functions = users_functions(self.main_window, self.widgets, self.database_manager, self.user)
+        
         self.main_window.action_5.triggered.connect(self.sign_out)
 
     def setUser(self, user):
