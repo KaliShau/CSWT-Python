@@ -17,7 +17,10 @@ from src.functions.screens.available_tickets_functions import available_tickets_
 from src.functions.screens.create_ticket_functions import create_ticket_functions
 from src.functions.screens.my_create_tickets_functions import my_create_tickets_functions
 from src.functions.screens.my_assigned_tickets_functions import my_assigned_tickets_functions
-from src.functions.screens.users import users_functions
+from src.functions.screens.users_functions import users_functions
+from src.functions.screens.roles_functions import roles_functions
+from src.functions.screens.departments_functions import departments_functions
+from src.functions.screens.update_user_functions import update_user_functions
 
 class AppTracker(QMainWindow):
     def __init__(self):
@@ -51,8 +54,13 @@ class AppTracker(QMainWindow):
         self.my_assigned_tickets_functions = my_assigned_tickets_functions(self.main_window, self.widgets, self.database_manager, self.user)
         
         self.users_functions = users_functions(self.main_window, self.widgets, self.database_manager, self.user)
+        self.roles_functions = roles_functions(self.main_window, self.widgets, self.database_manager, self.user)
+        self.departments_functions = departments_functions(self.main_window, self.widgets, self.database_manager, self.user)
         
         self.main_window.action_5.triggered.connect(self.sign_out)
+        self.main_window.action_2.triggered.connect(self.openUpdateProfile)
+
+
 
     def setUser(self, user):
         self.user = user
@@ -63,6 +71,7 @@ class AppTracker(QMainWindow):
         event.accept()
 
     def sign_out(self):
+
         self.database_manager.disconnect()
         self.user = None
         self.visible.auth()
@@ -70,7 +79,12 @@ class AppTracker(QMainWindow):
         self.main_window.startLabel.setVisible(True)
 
         self.init_functions_widgets()
-        
+
+    def openUpdateProfile(self):
+        self.update_user_functions = update_user_functions(self.main_window, self.widgets, self.database_manager, self.user[0])
+
+        self.update_user_functions.openUpdateProfile()
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = AppTracker()
