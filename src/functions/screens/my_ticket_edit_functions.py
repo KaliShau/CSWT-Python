@@ -4,6 +4,9 @@ from src.functions.load_table import table
 
 from src.functions.dialog import dialog
 
+from PyQt6.QtWidgets import QMenu
+from PyQt6.QtCore import QPoint, Qt
+
 headers = ['ID', 'Дата добавления', 'Текст', 'Имя создателя', 'Фамилия создателя']
 
 class my_ticket_edit_functions():
@@ -23,6 +26,10 @@ class my_ticket_edit_functions():
         # buttons
         self.my_ticket_edit.createCommentButton.clicked.connect(self.createComment)
         self.my_ticket_edit.updateTicketButton.clicked.connect(self.updateTicket)
+
+        # config 
+        self.my_ticket_edit.tableView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.my_ticket_edit.tableView.customContextMenuRequested.connect(self.showContextMenu)
 
     def openMyTicketEdit(self):
          self.widgets.change(self.my_ticket_edit)
@@ -51,3 +58,31 @@ class my_ticket_edit_functions():
         desc = self.my_ticket_edit.descEdit.toPlainText()
 
         self.database_manager.update_ticket_client(title, desc, self.ticket_id)
+
+    def showContextMenu(self, position: QPoint): 
+        menu = QMenu(self.my_ticket_edit.tableView)
+
+        delete_action = menu.addAction('Удалить')
+
+        index = self.my_ticket_edit.tableView.indexAt(position)
+
+        if index.isValid():
+            model = self.my_ticket_edit.tableView.model()
+            row = index.row()
+            id_item = model.item(row, 0)
+
+            if id_item:
+                comment_id = int(id_item.text())
+                action = menu.exec(self.my_ticket_edit.tableView.viewport().mapToGlobal(position))
+
+                if action == delete_action:
+                    comment = self.database_manager.get_comment_by_id(comment_id)
+
+                    if comment[5] != self.user[0]:
+                        dialog.show('Комментарий не пренадлежит вам.')
+
+                        return False
+
+                    self.database_manager.delete_comment(comment_id, self.user[0])
+                    self.loadComment()
+                

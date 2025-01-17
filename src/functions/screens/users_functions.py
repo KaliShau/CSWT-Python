@@ -3,6 +3,12 @@ from src.screens.users import Ui_Users
 from src.functions.load_table import table
 from src.functions.dialog import dialog
 
+from src.functions.screens.update_user_functions import update_user_functions
+
+from PyQt6.QtWidgets import QMenu
+from PyQt6.QtCore import QPoint, Qt
+
+
 headers = ['ID', 'Дата создания', 'Дата обновления', 'Логин', 'Пароль', 'Имя', 'Фамилия', 'Email', 'Номер телефона', 'Роль', 'Отделы']
 
 class users_functions():
@@ -19,6 +25,10 @@ class users_functions():
         self.main_window.usersButton.clicked.connect(self.openUsers)
         self.users.searchButton.clicked.connect(self.searchData)
         self.users.createButton.clicked.connect(self.create_user)
+
+        # config 
+        self.users.tableView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.users.tableView.customContextMenuRequested.connect(self.showContextMenu)
 
     def openUsers(self):
         self.widgets.change(self.users)
@@ -71,8 +81,36 @@ class users_functions():
         self.loadUsers()
         dialog.show('Пользователь успешно добавлен.')
 
-        username = self.users.loginEdit.clear()
-        password = self.users.passwordEdit.clear()
-        firstname = self.users.firstNameEdit.clear()
-        lastname = self.users.lastNameEdit.clear()
-        number = self.users.phoneNumberEdit.clear()
+        self.users.loginEdit.clear()
+        self.users.passwordEdit.clear()
+        self.users.firstNameEdit.clear()
+        self.users.lastNameEdit.clear()
+        self.users.phoneNumberEdit.clear()
+
+    def showContextMenu(self, position: QPoint): 
+        menu = QMenu(self.users.tableView)
+
+        delete_action = menu.addAction('Удалить')
+        ticket_edit_action = menu.addAction('Редактировать')
+
+        index = self.users.tableView.indexAt(position)
+
+        if index.isValid():
+            model = self.users.tableView.model()
+            row = index.row()
+            id_item = model.item(row, 0)
+
+            if id_item:
+                user_id = int(id_item.text())
+                action = menu.exec(self.users.tableView.viewport().mapToGlobal(position))
+
+                if action == delete_action:
+                    role = self.database_manager.get_role_by_name('Deleted')
+
+                    self.database_manager.delete_user(user_id, role[0])
+                    self.loadUsers()
+                
+                if action == ticket_edit_action:
+                    self.update_user_functions = update_user_functions(self.main_window, self.widgets, self.database_manager, user_id)
+
+                    self.update_user_functions.openUpdateUser()

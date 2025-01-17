@@ -16,6 +16,12 @@ class sql():
         WHERE username = %s;
     '''
 
+    get_user_by_id = '''
+        SELECT * 
+        FROM Users 
+        WHERE ID = %s;
+    '''
+
     get_users = '''
         SELECT U.ID, U.created_at, U.updated_at, U.username, U.password, U.first_name, U.last_name, U.email, U.phone_number, R.role_name,
         GROUP_CONCAT(d.department_name SEPARATOR ', ') AS departments
@@ -37,9 +43,43 @@ class sql():
         GROUP BY U.ID, U.created_at, U.updated_at, U.username, U.password, U.first_name, U.last_name, U.email, U.phone_number, R.role_name;
     '''
 
+    delete_user = '''
+        UPDATE Users
+        SET role_id = %s
+        WHERE ID = %s;
+    '''
+
+    update_user = '''
+        UPDATE Users
+        SET username = %s, password = %s, first_name = %s, last_name = %s, email = %s, phone_number = %s, role_id = %s
+        WHERE ID = %s;
+    '''
+
+    delete_role = '''
+        DELETE FROM Roles
+        WHERE ID = %s;
+    '''
+
+    create_role = '''
+        INSERT INTO Roles (role_name, description)
+        VALUE (%s, %s)
+    '''
+
     get_roles = '''
         SELECT * 
         FROM Roles;
+    '''
+
+    get_roles_search = '''
+        SELECT * 
+        FROM Roles
+        WHERE role_name LIKE %s OR description LIKE %s;
+    '''
+
+    update_role = '''
+        UPDATE Roles
+        SET role_name = %s, description = %s
+        WHERE ID = %s;
     '''
 
     get_role_by_id = '''
@@ -150,6 +190,12 @@ class sql():
         WHERE ticket_id = %s;
     '''
 
+    get_comment_by_id = '''
+        SELECT *
+        FROM Comments 
+        WHERE ID = %s;
+    '''
+
     get_ticket_by_id = '''
         SELECT *
         FROM Tickets
@@ -159,6 +205,11 @@ class sql():
     create_comment = '''
         INSERT INTO Comments (comment_text, ticket_id, user_id)
         VALUE (%s, %s, %s) 
+    '''
+
+    delete_comment = '''
+        DELETE FROM Comments
+        WHERE ID = %s AND user_id = %s;
     '''
 
     update_ticket_client = '''
@@ -206,10 +257,69 @@ class sql():
     '''
 
     get_departments_by_user_id = '''
-        SELECT d.department_name
+        SELECT d.ID, d.created_at, d.updated_at, d.department_name, d.description
         FROM User_Departments ud
         INNER JOIN Departments d ON ud.department_id = d.id
         WHERE ud.user_id = %s;
+    '''
+
+    create_department = '''
+        INSERT INTO Departments (department_name, description)
+        VALUE (%s, %s) 
+    '''
+
+    get_departments_search = '''
+        SELECT * 
+        FROM Departments
+        WHERE department_name LIKE %s OR description LIKE %s;
+    '''
+
+    get_departments = '''
+        SELECT *
+        FROM Departments;
+    '''
+
+    get_department_by_name = '''
+        SELECT *
+        FROM Departments
+        WHERE department_name = %s;
+    '''
+
+    get_department_by_id = '''
+        SELECT *
+        FROM Departments
+        WHERE ID = %s;
+    '''
+
+    update_department = '''
+        UPDATE Departments
+        SET department_name = %s, description = %s
+        WHERE ID = %s;
+    '''
+
+    get_departments_not_in_user = '''
+        SELECT d.id, d.department_name
+        FROM Departments d
+            WHERE d.id NOT IN (
+            SELECT ud.department_id
+            FROM User_Departments ud
+            WHERE ud.user_id = %s
+        );
+    '''
+
+    add_department = '''
+        INSERT INTO User_Departments (user_id, department_id)
+        VALUE (%s, %s)
+    '''
+
+    delete_department = '''
+        DELETE FROM Departments 
+        WHERE ID = %s;
+    '''
+
+    delete_user_department = '''
+        DELETE FROM User_Departments 
+        WHERE user_id = %s AND department_id = %s;
     '''
 
     # base data
@@ -219,6 +329,7 @@ class sql():
         VALUE 
             ('Client', 'Клиент, создающий заявки и отслеживающий их.'),
             ('Admin', 'Администратор системы, управляющий пользователями и системой'),
+            ('Deleted', 'Удаленнный пользователь'),
             ('ASU_staff', 'Сотрудник АСУ, работающий с заявками и помогающий клиентам.');
     '''
 

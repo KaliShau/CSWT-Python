@@ -108,6 +108,22 @@ class database_manager():
                 dialog.show(f'Ошибка при выполнении запроса: {err}')
 
                 return False
+
+    def get_user_by_id(self, id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.get_user_by_id, (id,))
+
+                result = cursor.fetchone()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False
         
     def sign_up(self, username, firstname, lastname, number, password, role_id):
         if self.conn:
@@ -144,6 +160,57 @@ class database_manager():
 
                 return False        
 
+    def delete_user(self, user_id, role_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.delete_user, (role_id, user_id))
+                self.conn.commit()
+
+                dialog.show('Успешно удалено.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+
+    def delete_role(self, role_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.delete_role, (role_id,))
+                self.conn.commit()
+
+                dialog.show('Успешно удалено.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+
+    def create_role(self, title, desc):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.create_role, (title, desc))
+                self.conn.commit()
+
+                dialog.show('Роль успешно добавлена.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+
     def get_role_by_id(self, id):
         if self.conn:
             cursor = self.conn.cursor()
@@ -160,6 +227,23 @@ class database_manager():
 
                 return False      
 
+    def update_role(self, title, desc, role_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.update_role, (title, desc, role_id))
+                self.conn.commit()            
+
+                dialog.show('Успешно обновлено.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+
     def get_roles(self):
         if self.conn:
             cursor = self.conn.cursor()
@@ -175,6 +259,23 @@ class database_manager():
                 dialog.show(f'Ошибка при выполнении запроса: {err}')
 
                 return False      
+
+    def get_roles_search(self, search_term):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.get_roles_search, ('%' + search_term + '%', '%' + search_term + '%'))
+
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+
     def get_role_by_name(self, name):
         if self.conn:
             cursor = self.conn.cursor()
@@ -585,4 +686,218 @@ class database_manager():
                 dialog.show(f'Ошибка при выполнении запроса: {err}')
 
                 return False  
+
+    def get_departments_search(self, search_term):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.get_departments_search, ('%' + search_term + '%', '%' + search_term + '%'))
+
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False 
+
+    def get_departments(self):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.get_departments)
+                
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+
+    def get_department_by_name(self, name):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.get_department_by_name, (name,))
+                
+                result = cursor.fetchone()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+
+    def get_department_by_id(self, id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.get_department_by_id, (id,))
+                
+                result = cursor.fetchone()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+
+    def update_department(self, title, desc, department_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.update_department, (title, desc, department_id))
+                self.conn.commit()            
+
+                dialog.show('Успешно обновлено.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+
+    def get_departments_not_in_user(self, user_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.get_departments_not_in_user, (user_id,))
+                
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+
+    def add_department(self, user_id, department_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.add_department, (user_id, department_id))
+                self.conn.commit()            
+
+                dialog.show('Отдел добавлен.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+
+    def create_department(self, title, desc):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.create_department, (title, desc))
+                self.conn.commit()            
+
+                dialog.show('Отдел добавлен.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+
+    def delete_department(self, department_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.delete_department, (department_id,))
+                self.conn.commit()            
+
+                dialog.show('Отдел удален.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+
+    def delete_user_department(self, user_id, department_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.delete_user_department, (user_id, department_id))
+                self.conn.commit()            
+
+                dialog.show('Отдел удален.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
     
+    def update_user(self, username, password, firstname, lastname, email, phone_number, role_id, user_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.update_user, (username, password, firstname, lastname, email, phone_number, role_id, user_id))
+                self.conn.commit()            
+
+                dialog.show('Успешно обновлено.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+    
+    def delete_comment(self, comment_id, user_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.delete_comment, (comment_id, user_id))
+                self.conn.commit()            
+
+                dialog.show('Комментарий удален.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
+
+    def get_comment_by_id(self, comment_id):
+        if self.conn:
+            cursor = self.conn.cursor()
+
+            try:
+                cursor.execute(sql.get_comment_by_id, (comment_id,))
+
+                result = cursor.fetchone()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False  
