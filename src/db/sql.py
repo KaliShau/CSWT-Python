@@ -155,10 +155,21 @@ class sql():
         WHERE ID = %s;
     '''
 
+    create_priority = '''
+        INSERT INTO Priorities (priority_name, description)
+        VALUE (%s, %s)
+    '''
+
     get_status_by_name = '''
         SELECT *
         FROM Statuses
         WHERE status_name = %s;
+    '''
+
+    get_priorities_search = '''
+        SELECT * 
+        FROM Priorities
+        WHERE priority_name LIKE %s OR description LIKE %s;
     '''
 
     get_statuses = '''

@@ -374,6 +374,39 @@ class database_manager():
 
                 return False   
     
+    def get_priorities_search(self, search_term):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.get_priorities_search, ('%' + search_term + '%', '%' + search_term + '%'))
+
+                result = cursor.fetchall()
+
+                return result
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+    
+    def create_priority(self, title, desc):
+        if self.conn:
+            cursor = self.conn.cursor()
+            
+            try:
+                cursor.execute(sql.create_priority, (title, desc))
+                self.conn.commit()
+
+                dialog.show('Приоритет успешно добавлен.')
+
+                return True
+            except mysql.connector.Error as err:
+                logging.error('Ошибка при выполнении запроса.')
+                dialog.show(f'Ошибка при выполнении запроса: {err}')
+
+                return False   
+
     def get_status_by_name(self, name):
         if self.conn:
             cursor = self.conn.cursor()
