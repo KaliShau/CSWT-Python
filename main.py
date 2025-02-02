@@ -35,6 +35,7 @@ class AppTracker(QMainWindow):
         # config
         config().create_config()
         self.user = None 
+
         # themeManager = theme_manager()
         # themeManager.set_theme('light', self)
         # themeManager.set_theme('light', self.main_window.navBar)
