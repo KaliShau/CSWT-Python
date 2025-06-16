@@ -2,27 +2,26 @@ import sys
 
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
-from src.screens.main_window import Ui_MainWindow
+from src.pages.main_window.main_window import Ui_MainWindow
 
-from src.functions.visible import  visible
-from src.functions.widgets import widgets
-from src.functions.config import config
+from src.shared.utils.visible import  visible
+from src.shared.utils.widgets import widgets
+from src.shared.utils.config import config
 
-from src.db.database_manager import database_manager
-from src.theme.theme_manager import theme_manager
+from src.core.db.database_manager import database_manager
 
-from src.functions.screens.db_config_functions import db_config_functions
-from src.functions.screens.sign_in_functions import sign_in_functions
-from src.functions.screens.sign_up_functions import sign_up_functions
-from src.functions.screens.available_tickets_functions import available_tickets_functions
-from src.functions.screens.create_ticket_functions import create_ticket_functions
-from src.functions.screens.my_create_tickets_functions import my_create_tickets_functions
-from src.functions.screens.my_assigned_tickets_functions import my_assigned_tickets_functions
-from src.functions.screens.users_functions import users_functions
-from src.functions.screens.roles_functions import roles_functions
-from src.functions.screens.departments_functions import departments_functions
-from src.functions.screens.update_user_functions import update_user_functions
-from src.functions.screens.priorities_functions import priorities_functions
+from src.pages.db_config.db_config_functions import db_config_functions
+from src.pages.sign_in.sign_in_functions import sign_in_functions
+from src.pages.sign_up.sign_up_functions import sign_up_functions
+from src.pages.available_tickets.available_tickets_functions import available_tickets_functions
+from src.pages.create_ticket.create_ticket_functions import create_ticket_functions
+from src.pages.my_create_tickets.my_create_tickets_functions import my_create_tickets_functions
+from src.pages.my_assigned_tickets.my_assigned_tickets_functions import my_assigned_tickets_functions
+from src.pages.users.users_functions import users_functions
+from src.pages.roles.roles_functions import roles_functions
+from src.pages.departments.departments_functions import departments_functions
+from src.pages.update_user.update_user_functions import update_user_functions
+from src.pages.priorities.priorities_functions import priorities_functions
 
 class AppTracker(QMainWindow):
     def __init__(self):
@@ -36,11 +35,6 @@ class AppTracker(QMainWindow):
         config().create_config()
         self.user = None 
 
-        # themeManager = theme_manager()
-        # themeManager.set_theme('light', self)
-        # themeManager.set_theme('light', self.main_window.navBar)
-        # themeManager.set_theme('light', self.main_window.startWidget)
-        
 
         # init functions
         self.widgets = widgets(self.main_window)
