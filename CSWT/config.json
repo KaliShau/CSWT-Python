@@ -1,9 +1,9 @@
 {
-     "database": {
-          "host": "localhost",
-          "user": "Shau",
-          "password": "79442005",
-          "port": "3306",
-          "dbname": "cswt"
-     }
+  "database": {
+    "host": "localhost",
+    "user": "Shau",
+    "password": "11111111",
+    "port": "3306",
+    "dbname": "cswt"
+  }
 }
